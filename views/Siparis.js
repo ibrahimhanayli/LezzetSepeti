@@ -121,7 +121,7 @@ const Siparis = () => {
             placement: "top",
             duration: 3000,
             });
-            //takipKopyala(json.takip);
+            takipKopyala(json.takip);
 
         } else {
           toast.show({
@@ -136,15 +136,26 @@ const Siparis = () => {
   };
 
   const takipKopyala = async(takip) => {
-    await Clipboard.setString(takip);
-    toast.show({
-        title: "Takip Numarası Kopyalandı",
-        status: "success",
-        description: "Takip numarası kopyalandı.",
-        placement: "top",
-        duration: 3000,
-    });
+    navigator.clipboard.writeText(takip)
+    .then(() => {toast.show({
+         title: "Takip Numarası Kopyalandı",
+         status: "success",
+         description: "Takip numarası kopyalandı.",
+         placement: "top",
+         duration: 3000,
+     });
+
+    })
+    // await Clipboard.setString(takip);
+    // toast.show({
+    //     title: "Takip Numarası Kopyalandı",
+    //     status: "success",
+    //     description: "Takip numarası kopyalandı.",
+    //     placement: "top",
+    //     duration: 3000,
+    // });
   };
+
 
   return (
     <View backgroundColor="#032830" minH="100%" py={10}>
