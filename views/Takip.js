@@ -5,6 +5,7 @@ const Takip = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [takip, setTakip] = useState();
   const [durum, setDurum] = useState();
+  
   const BilgiGetir = () => {
     fetch("https://www.lezzetsepeti.tr.ht/api.php?action=takip&takip=" + takip)
       .then((response) => response.json())

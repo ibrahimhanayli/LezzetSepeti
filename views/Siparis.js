@@ -52,7 +52,7 @@ const Siparis = () => {
 
   const sepetDuzenle = (e, yemek) => {
     if (e) {
-      setSepet([...sepet, yemek]);
+      setSepet([...sepet, { id:yemek.id,fiyat:yemek.fiyat}]);
     } else {
       setSepet(sepet.filter((item) => item.id !== yemek.id));
     }
@@ -91,10 +91,10 @@ const Siparis = () => {
         siparisform.append(key, adres[key]);
     });
     
-    siparisform.append("sepet", encode(unescape(encodeURIComponent(sepet))));
-    
+    siparisform.append("sepet", encode(sepet.map(item => item.id)));
     siparisform.append("toplamucret", toplamucret);
-
+ 
+  
     fetch("https://www.lezzetsepeti.tr.ht/api.php?action=siparisolustur", {
       method: "POST",
       headers: {
@@ -136,37 +136,27 @@ const Siparis = () => {
   };
 
   const takipKopyala = async(takip) => {
-    navigator.clipboard.writeText(takip)
-    .then(() => {toast.show({
-         title: "Takip Numarası Kopyalandı",
-         status: "success",
-         description: "Takip numarası kopyalandı.",
-         placement: "top",
-         duration: 3000,
-     });
-
-    })
-    // await Clipboard.setString(takip);
-    // toast.show({
-    //     title: "Takip Numarası Kopyalandı",
-    //     status: "success",
-    //     description: "Takip numarası kopyalandı.",
-    //     placement: "top",
-    //     duration: 3000,
-    // });
+    navigator.clipboard.writeText(takip);
+    await Clipboard.setString(takip);
+    toast.show({
+        title: "Takip Numarası Kopyalandı",
+        status: "success",
+        description: "Takip numarası kopyalandı.",
+        placement: "top",
+        duration: 3000,
+    });
   };
-
 
   return (
     <View backgroundColor="#032830" minH="100%" py={10}>
-      <ScrollView colorScheme="warning">
+      <ScrollView colorScheme="warning" height={100}>
       <Text color="#ffca00" bold textAlign="center" my={2} fontSize="4xl">
         Lezzet Sepeti
       </Text>
-      <Divider my={2} />
+      <Divider m={2} />
 
-      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2}>
-        <Heading fontSize="xl" py="4" color="warning.300">
+      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2} px={3}>
+        <Heading fontSize="2xl" py="4" color="warning.300">
           Yemekler
         </Heading>
         <FlatList
@@ -180,13 +170,13 @@ const Siparis = () => {
               py="2"
             >
               <HStack justifyContent="space-between">
-                <Text color="lightText" pt={2} bold>
+                <Text w="60%" color="lightText" pt={2} bold fontSize="md">
                   {item.ad}
                 </Text>
                 <Button
                   size="md"
                   variant="outline"
-                  alignSelf="flex-end"
+                  w="15%"
                   onPress={() => setSelected(item) & setIsOpen(true)}
                 >
                   <Text color="warning.400">Detay</Text>
@@ -196,12 +186,14 @@ const Siparis = () => {
                   fontSize="lg"
                   mr={5}
                   color="lightText"
-                  alignSelf="flex-end"
+                  w="15%"
+                  textAlign="center"
                 >
                   {item.fiyat}₺
                 </Text>
 
                 <Checkbox
+                  w="10%"
                   size="md"
                   colorScheme="warning"
                   pt={2}
@@ -214,7 +206,7 @@ const Siparis = () => {
         />
       </Box>
       <Divider my={2} />
-      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2}>
+      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2} px={3}>
         <Heading fontSize="xl" py="4" color="warning.300">
           İçecekler
         </Heading>
@@ -228,14 +220,14 @@ const Siparis = () => {
               pr={["0", "5"]}
               py="2"
             >
-              <HStack justifyContent="space-between">
-                <Text color="lightText" pt={2} bold>
+             <HStack justifyContent="space-between">
+                <Text w="60%" color="lightText" pt={2} bold fontSize="md">
                   {item.ad}
                 </Text>
                 <Button
                   size="md"
                   variant="outline"
-                  alignSelf="flex-end"
+                  w="15%"
                   onPress={() => setSelected(item) & setIsOpen(true)}
                 >
                   <Text color="warning.400">Detay</Text>
@@ -245,12 +237,14 @@ const Siparis = () => {
                   fontSize="lg"
                   mr={5}
                   color="lightText"
-                  alignSelf="flex-end"
+                  w="15%"
+                  textAlign="center"
                 >
                   {item.fiyat}₺
                 </Text>
 
                 <Checkbox
+                  w="10%"
                   size="md"
                   colorScheme="warning"
                   pt={2}
@@ -263,7 +257,7 @@ const Siparis = () => {
         />
       </Box>
       <Divider my={2} />
-      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2}>
+      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2} px={3}>
         <Heading fontSize="xl" py="4" color="warning.300">
           Tatlılar
         </Heading>
@@ -277,14 +271,14 @@ const Siparis = () => {
               pr={["0", "5"]}
               py="2"
             >
-              <HStack justifyContent="space-between">
-                <Text color="lightText" pt={2} bold>
+             <HStack justifyContent="space-between">
+                <Text w="60%" color="lightText" pt={2} bold fontSize="md">
                   {item.ad}
                 </Text>
                 <Button
                   size="md"
                   variant="outline"
-                  alignSelf="flex-end"
+                  w="15%"
                   onPress={() => setSelected(item) & setIsOpen(true)}
                 >
                   <Text color="warning.400">Detay</Text>
@@ -294,12 +288,14 @@ const Siparis = () => {
                   fontSize="lg"
                   mr={5}
                   color="lightText"
-                  alignSelf="flex-end"
+                  w="15%"
+                  textAlign="center"
                 >
                   {item.fiyat}₺
                 </Text>
 
                 <Checkbox
+                  w="10%"
                   size="md"
                   colorScheme="warning"
                   pt={2}
@@ -312,7 +308,7 @@ const Siparis = () => {
         />
       </Box>
       <Divider my={2} />
-      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2}>
+      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2} px={3}>
         <Heading fontSize="xl" py="4" color="warning.300">
           Atıştırmalıklar
         </Heading>
@@ -326,14 +322,14 @@ const Siparis = () => {
               pr={["0", "5"]}
               py="2"
             >
-              <HStack justifyContent="space-between">
-                <Text color="lightText" pt={2} bold>
+            <HStack justifyContent="space-between">
+                <Text w="60%" color="lightText" pt={2} bold fontSize="md">
                   {item.ad}
                 </Text>
                 <Button
                   size="md"
                   variant="outline"
-                  alignSelf="flex-end"
+                  w="15%"
                   onPress={() => setSelected(item) & setIsOpen(true)}
                 >
                   <Text color="warning.400">Detay</Text>
@@ -343,12 +339,14 @@ const Siparis = () => {
                   fontSize="lg"
                   mr={5}
                   color="lightText"
-                  alignSelf="flex-end"
+                  w="15%"
+                  textAlign="center"
                 >
                   {item.fiyat}₺
                 </Text>
 
                 <Checkbox
+                  w="10%"
                   size="md"
                   colorScheme="warning"
                   pt={2}
@@ -361,7 +359,7 @@ const Siparis = () => {
         />
       </Box>
       <Divider my={2} />
-      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2}>
+      <Box mx={5} colorScheme="warning" background="warning.900" borderRadius={5} p={2} px={3}>
         <Heading fontSize="xl" py="4" color="warning.300">
           Soslar
         </Heading>
@@ -375,14 +373,14 @@ const Siparis = () => {
               pr={["0", "5"]}
               py="2"
             >
-              <HStack justifyContent="space-between">
-                <Text color="lightText" pt={2} bold>
+             <HStack justifyContent="space-between">
+                <Text w="60%" color="lightText" pt={2} bold fontSize="md">
                   {item.ad}
                 </Text>
                 <Button
                   size="md"
                   variant="outline"
-                  alignSelf="flex-end"
+                  w="15%"
                   onPress={() => setSelected(item) & setIsOpen(true)}
                 >
                   <Text color="warning.400">Detay</Text>
@@ -392,12 +390,14 @@ const Siparis = () => {
                   fontSize="lg"
                   mr={5}
                   color="lightText"
-                  alignSelf="flex-end"
+                  w="15%"
+                  textAlign="center"
                 >
                   {item.fiyat}₺
                 </Text>
 
                 <Checkbox
+                  w="10%"
                   size="md"
                   colorScheme="warning"
                   pt={2}
@@ -410,12 +410,12 @@ const Siparis = () => {
         />
       </Box>
 
-      <AlertDialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <AlertDialog.Content>
+      <AlertDialog  isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <AlertDialog.Content backgroundColor="#032830">
           <AlertDialog.CloseButton />
-          <AlertDialog.Header>{selected.ad}</AlertDialog.Header>
-          <AlertDialog.Body>{selected.aciklama}</AlertDialog.Body>
-          <AlertDialog.Footer>
+          <AlertDialog.Header backgroundColor="#032830" ><Text color="lightText" bold>{selected.ad}</Text></AlertDialog.Header>
+          <AlertDialog.Body backgroundColor="#032830" ><Text color="lightText">{selected.aciklama}</Text></AlertDialog.Body>
+          <AlertDialog.Footer backgroundColor="#032830">
             <Button.Group space={2}>
               <Button colorScheme="warning" onPress={() => setIsOpen(false)}>
                 Kapat
@@ -427,7 +427,7 @@ const Siparis = () => {
 
       <Divider my={3} />
 
-      <Heading fontSize="xl" p="4" color="warning.300">
+      <Heading fontSize="2xl" bold p="4" color="warning.300">
         Adres Bilgileri
         <Divider my={1} />
       </Heading>
